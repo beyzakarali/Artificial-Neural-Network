@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <Windows.h>
 #include "Classification.h"
@@ -16,7 +16,7 @@ namespace MultyNeuron {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// MyForm için özet
+	/// MyForm iÃ§in Ã¶zet
 	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
@@ -25,14 +25,14 @@ namespace MultyNeuron {
 		{
 			InitializeComponent();
 			//
-			//TODO: Oluþturucu kodunu buraya ekle
+			//TODO: OluÅŸturucu kodunu buraya ekle
 			//
-			Total_size = 0; //Baþlangýçta eleman sayýsý 0 dýr.
+			Total_size = 0; //BaÅŸlangÄ±Ã§ta eleman sayÄ±sÄ± 0 dÄ±r.
 		}
 
 	protected:
 		/// <summary>
-		///Kullanýlan tüm kaynaklarý temizleyin.
+		///KullanÄ±lan tÃ¼m kaynaklarÄ± temizleyin.
 		/// </summary>
 		~MyForm()
 		{
@@ -83,14 +83,14 @@ namespace MultyNeuron {
 	private: System::ComponentModel::IContainer^ components;
 
 		 /// <summary>
-		///Gerekli tasarýmcý deðiþkeni.
+		///Gerekli tasarÄ±mcÄ± deÄŸiÅŸkeni.
 		/// </summary>
 
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		/// Tasarýmcý desteði için gerekli metot - bu metodun 
-		///içeriðini kod düzenleyici ile deðiþtirmeyin.
+		/// TasarÄ±mcÄ± desteÄŸi iÃ§in gerekli metot - bu metodun 
+		///iÃ§eriÄŸini kod dÃ¼zenleyici ile deÄŸiÅŸtirmeyin.
 		/// </summary>
 		void InitializeComponent(void)
 		{
@@ -164,7 +164,7 @@ namespace MultyNeuron {
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(61, 13);
 			this->label1->TabIndex = 3;
-			this->label1->Text = L"Sýnýf sayýsý :";
+			this->label1->Text = L"SÄ±nÄ±f sayÄ±sÄ± :";
 			// 
 			// label2
 			// 
@@ -173,7 +173,7 @@ namespace MultyNeuron {
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(71, 13);
 			this->label2->TabIndex = 4;
-			this->label2->Text = L"Seçilen Sýnýf :";
+			this->label2->Text = L"SeÃ§ilen SÄ±nÄ±f :";
 			// 
 			// button1
 			// 
@@ -194,6 +194,7 @@ namespace MultyNeuron {
 			this->checkBox1->TabIndex = 6;
 			this->checkBox1->Text = L"Normalization";
 			this->checkBox1->UseVisualStyleBackColor = true;
+			this->checkBox1->Click += gcnew System::EventHandler(this, &MyForm::checkBox1_Click);
 			// 
 			// label3
 			// 
@@ -202,7 +203,7 @@ namespace MultyNeuron {
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(60, 13);
 			this->label3->TabIndex = 7;
-			this->label3->Text = L"Sýnýf Sayýsý:";
+			this->label3->Text = L"SÄ±nÄ±f SayÄ±sÄ±:";
 			// 
 			// label4
 			// 
@@ -219,7 +220,7 @@ namespace MultyNeuron {
 			this->label5->Name = L"label5";
 			this->label5->Size = System::Drawing::Size(64, 13);
 			this->label5->TabIndex = 9;
-			this->label5->Text = L"Cycle sayýsý:";
+			this->label5->Text = L"Cycle sayÄ±sÄ±:";
 			// 
 			// CycleCount
 			// 
@@ -232,7 +233,7 @@ namespace MultyNeuron {
 			// label6
 			// 
 			this->label6->AutoSize = true;
-			this->label6->Location = System::Drawing::Point(666, 205);
+			this->label6->Location = System::Drawing::Point(635, 205);
 			this->label6->Name = L"label6";
 			this->label6->Size = System::Drawing::Size(17, 13);
 			this->label6->TabIndex = 11;
@@ -241,7 +242,7 @@ namespace MultyNeuron {
 			// label7
 			// 
 			this->label7->AutoSize = true;
-			this->label7->Location = System::Drawing::Point(666, 228);
+			this->label7->Location = System::Drawing::Point(635, 228);
 			this->label7->Name = L"label7";
 			this->label7->Size = System::Drawing::Size(17, 13);
 			this->label7->TabIndex = 12;
@@ -250,7 +251,7 @@ namespace MultyNeuron {
 			// label8
 			// 
 			this->label8->AutoSize = true;
-			this->label8->Location = System::Drawing::Point(666, 244);
+			this->label8->Location = System::Drawing::Point(631, 256);
 			this->label8->Name = L"label8";
 			this->label8->Size = System::Drawing::Size(21, 13);
 			this->label8->TabIndex = 13;
@@ -259,7 +260,7 @@ namespace MultyNeuron {
 			// label9
 			// 
 			this->label9->AutoSize = true;
-			this->label9->Location = System::Drawing::Point(666, 271);
+			this->label9->Location = System::Drawing::Point(595, 281);
 			this->label9->Name = L"label9";
 			this->label9->Size = System::Drawing::Size(57, 13);
 			this->label9->TabIndex = 14;
@@ -268,7 +269,7 @@ namespace MultyNeuron {
 			// x_info
 			// 
 			this->x_info->AutoSize = true;
-			this->x_info->Location = System::Drawing::Point(723, 205);
+			this->x_info->Location = System::Drawing::Point(666, 205);
 			this->x_info->Name = L"x_info";
 			this->x_info->Size = System::Drawing::Size(0, 13);
 			this->x_info->TabIndex = 15;
@@ -276,7 +277,7 @@ namespace MultyNeuron {
 			// y_info
 			// 
 			this->y_info->AutoSize = true;
-			this->y_info->Location = System::Drawing::Point(723, 228);
+			this->y_info->Location = System::Drawing::Point(666, 228);
 			this->y_info->Name = L"y_info";
 			this->y_info->Size = System::Drawing::Size(0, 13);
 			this->y_info->TabIndex = 16;
@@ -284,7 +285,7 @@ namespace MultyNeuron {
 			// id_info
 			// 
 			this->id_info->AutoSize = true;
-			this->id_info->Location = System::Drawing::Point(726, 244);
+			this->id_info->Location = System::Drawing::Point(666, 256);
 			this->id_info->Name = L"id_info";
 			this->id_info->Size = System::Drawing::Size(0, 13);
 			this->id_info->TabIndex = 17;
@@ -292,7 +293,7 @@ namespace MultyNeuron {
 			// total_value
 			// 
 			this->total_value->AutoSize = true;
-			this->total_value->Location = System::Drawing::Point(726, 271);
+			this->total_value->Location = System::Drawing::Point(666, 281);
 			this->total_value->Name = L"total_value";
 			this->total_value->Size = System::Drawing::Size(0, 13);
 			this->total_value->TabIndex = 18;
@@ -356,7 +357,7 @@ namespace MultyNeuron {
 			// rastgeleToolStripMenuItem2
 			// 
 			this->rastgeleToolStripMenuItem2->Name = L"rastgeleToolStripMenuItem2";
-			this->rastgeleToolStripMenuItem2->Size = System::Drawing::Size(180, 22);
+			this->rastgeleToolStripMenuItem2->Size = System::Drawing::Size(118, 22);
 			this->rastgeleToolStripMenuItem2->Text = L"Rastgele";
 			this->rastgeleToolStripMenuItem2->Click += gcnew System::EventHandler(this, &MyForm::rastgeleToolStripMenuItem2_Click);
 			// 
@@ -367,20 +368,20 @@ namespace MultyNeuron {
 					this->countinousToolStripMenuItem
 			});
 			this->trainToolStripMenuItem->Name = L"trainToolStripMenuItem";
-			this->trainToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->trainToolStripMenuItem->Size = System::Drawing::Size(118, 22);
 			this->trainToolStripMenuItem->Text = L"Train";
 			// 
 			// discreteToolStripMenuItem2
 			// 
 			this->discreteToolStripMenuItem2->Name = L"discreteToolStripMenuItem2";
-			this->discreteToolStripMenuItem2->Size = System::Drawing::Size(180, 22);
+			this->discreteToolStripMenuItem2->Size = System::Drawing::Size(136, 22);
 			this->discreteToolStripMenuItem2->Text = L"Discrete";
 			this->discreteToolStripMenuItem2->Click += gcnew System::EventHandler(this, &MyForm::discreteToolStripMenuItem2_Click);
 			// 
 			// countinousToolStripMenuItem
 			// 
 			this->countinousToolStripMenuItem->Name = L"countinousToolStripMenuItem";
-			this->countinousToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->countinousToolStripMenuItem->Size = System::Drawing::Size(136, 22);
 			this->countinousToolStripMenuItem->Text = L"Countinous";
 			this->countinousToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::countinousToolStripMenuItem_Click);
 			// 
@@ -443,11 +444,11 @@ namespace MultyNeuron {
 		int class_value = Convert::ToInt32(numericUpDown1->Value);
 
 		Pen^ pen = gcnew Pen(Color::FromArgb(0, 0, 0), 3.0f);
-		for (int j = 0; j < class_value ; j++) {
+		for (int j = 1; j <= class_value ; j++) {
 
 			if (numericUpDown2->Value == j) {
 
-				pen->Color = Color::FromArgb(clr[j].R, clr[j].G, clr[j].B);
+				pen->Color = Color::FromArgb(clr[j-1].R, clr[j-1].G, clr[j-1].B);
 				
 				double x_eksen, y_eksen;
 				int temp_x, temp_y;
@@ -463,7 +464,7 @@ namespace MultyNeuron {
 				if (Total_size == 0) {
 					Total_size = 1;
 					p = new Samples[1];
-					p[0].x = x_eksen;  p[0].y = y_eksen;  p[0].id = j; p[0].cl.R = clr[j].R;  p[0].cl.G = clr[j].G; p[0].cl.B = clr[j].B;
+					p[0].x = x_eksen;  p[0].y = y_eksen;  p[0].id = j; p[0].cl.R = clr[j-1].R;  p[0].cl.G = clr[j-1].G; p[0].cl.B = clr[j-1].B;
 					//p = NormalizationR1(p); // -------------------------------------delta--------------------------------------------
 				}
 				else {
@@ -486,9 +487,9 @@ namespace MultyNeuron {
 					p[Total_size - 1].x = x_eksen;
 					p[Total_size - 1].y = y_eksen;
 					p[Total_size - 1].id = j;
-					p[Total_size - 1].cl.R = clr[j].R;
-					p[Total_size - 1].cl.G = clr[j].G;
-					p[Total_size - 1].cl.B = clr[j].B;
+					p[Total_size - 1].cl.R = clr[j-1].R;
+					p[Total_size - 1].cl.G = clr[j-1].G;
+					p[Total_size - 1].cl.B = clr[j-1].B;
 
 
 					//p[Total_size - 1] = NormalizationR1(p[Total_size - 1]); // ---------------------delta---------------------------
@@ -545,6 +546,27 @@ namespace MultyNeuron {
 		pictureBox1_Paint(this, f);
 
 	}
+	void pictureBoxClean_N() {
+
+		pictureBox1->CreateGraphics()->Clear(Color::FromArgb(255, 255, 255));
+		Pen^ pen = gcnew Pen(Color::FromArgb(255, 255, 255), 2.0f);
+
+		//Drawing normalization points..
+		for (int i = 0; i < Total_size; i++) {
+			int R = p[i].cl.R;
+			int G = p[i].cl.G;
+			int B = p[i].cl.B;
+			pen->Color = Color::FromArgb(R, G, B);
+			double x_eksen = (double)(+(p[i].x) + (pictureBox1->Width >> 1));
+			double y_eksen = (double)(+(pictureBox1->Height >> 1) - (p[i].y));
+			pictureBox1->CreateGraphics()->DrawRectangle(pen, x_eksen, y_eksen, 1, 1);
+		}
+
+		System::Drawing::Rectangle r;
+		PaintEventArgs^ f = gcnew PaintEventArgs(pictureBox1->CreateGraphics(), r);
+		pictureBox1_Paint(this, f);
+
+	}
 
 	private: System::Void rastgeleToolStripMenuItem2_Click(System::Object^ sender, System::EventArgs^ e) {
 			int boyut = 2;
@@ -571,16 +593,12 @@ namespace MultyNeuron {
 				Pen^ pen = gcnew Pen(Color::FromArgb(clr[i].R, clr[i].G, clr[i].B),2.0f);
 
 				pictureBox1->CreateGraphics()->DrawLine(pen, pictureBox1->Width / 2 + minX, pictureBox1->Height / 2 - minY, pictureBox1->Width / 2 + maxX, pictureBox1->Height / 2 - maxY);
-				//pictureBox1->CreateGraphics()->DrawLine(pen, pictureBox1->Width / 2 + 100, pictureBox1->Height / 2 -50 ,pictureBox1->Width / 2 -120, pictureBox1->Height / 2 +80);
-				//pictureBox1->CreateGraphics()->DrawLine( pen , 100,50,-120,-80) yukardaki örnek + - olayýný karýþtýrmýþým :( kodd
-				//richTextBox1->AppendText("\n \nw1 :" + Convert::ToString(w->w1) + " \n \nw2 :" + Convert::ToString(w->w2) + "\n \nw3 :" + Convert::ToString(w->w3));
 			
 			
 			}
 
 			
 
-	//}
 	}
    
 	private: System::Void discreteToolStripMenuItem2_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -590,7 +608,7 @@ namespace MultyNeuron {
 		int class_value = Convert::ToInt32(numericUpDown1->Value);
 
 		if (w == NULL)
-			MessageBox::Show("Önce rastgele bir doðru oluþturunuz.");
+			MessageBox::Show("Ã–nce rastgele bir doÄŸru oluÅŸturunuz.");
 
 		else {
 			double c = 0.1;
@@ -601,13 +619,13 @@ namespace MultyNeuron {
 
 			//--------------------------------------------------------------------Preception Rule ------------------------------------------------------------------
 
-			for (int i = 0; i < class_value; i++) {
+			for (int i = 1; i <= class_value; i++) { // HiÃ§bir ÅŸey bozulmadÄ± sadece class sayÄ±larÄ±nÄ± deÄŸiÅŸtirdim. w[0] clr[0] dan baÅŸlÄ±yor.
 				do {
 					wrong = 0;
 
 					for (int j = 0; j < Total_size; j++) {
 
-						fnet1 = TransMul(w[i], p[j]); // -1 bias güncellemesi yapýldý.
+						fnet1 = TransMul(w[i-1], p[j]); // -1 bias gÃ¼ncellemesi yapÄ±ldÄ±.
 						int o = sgn(fnet1);
 
 						if (p[j].id == i)
@@ -619,9 +637,9 @@ namespace MultyNeuron {
 						if (p[j].temp_id != o) {
 							wrong = 1;
 							Samples temp;
-							double fac = (c * (p[j].temp_id - o));  // fac -> katsayý
+							double fac = (c * (p[j].temp_id - o));  // fac -> katsayÄ±
 							temp = w_mulCalculation(fac, p[j]);  // c[di - fnet]*x
-							w[i] = w_sumCalculation(w[i], temp); // w[i] + c[di - fnet]*x[i]
+							w[i-1] = w_sumCalculation(w[i-1], temp); // w[i] + c[di - fnet]*x[i]
 						}
 
 					}
@@ -631,10 +649,10 @@ namespace MultyNeuron {
 
 
 				
-				Pen^ pen = gcnew Pen(Color::FromArgb(255, clr[i].R, clr[i].G, clr[i].B), 2.0f);
+				Pen^ pen = gcnew Pen(Color::FromArgb(255, clr[i-1].R, clr[i-1].G, clr[i-1].B), 2.0f);
 
-				double y1 = ((w[i].w3 - (w[i].w1 * (pictureBox1->Width / -2))) / (w[i].w2));
-				double y2 = ((w[i].w3 - (w[i].w1 * (pictureBox1->Width / 2))) / (w[i].w2));
+				double y1 = ((w[i-1].w3 - (w[i-1].w1 * (pictureBox1->Width / -2))) / (w[i-1].w2));
+				double y2 = ((w[i-1].w3 - (w[i-1].w1 * (pictureBox1->Width / 2))) / (w[i-1].w2));
 
 				pictureBox1->CreateGraphics()->DrawLine(pen, 0, pictureBox1->Height / 2 - y1, pictureBox1->Width, pictureBox1->Height / 2 - y2);
 			}
@@ -646,12 +664,109 @@ namespace MultyNeuron {
 	}
 
 	private: System::Void countinousToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-		
+		if (w == NULL)
+			MessageBox::Show("Ã–nce rastgele bir doÃ°ru oluÃ¾turunuz.");
+
+		else {
+
+			int class_value = Convert::ToInt32(numericUpDown1->Value);
+			double c = 0.1;
+			double fnet1 = 0;
+			double Error = 0;
+			double derActivationFunc = 0;
+			double DW_Value = 0;
+
+			//-------------------------------------------------------------------Delta Rule -------------------------------------------------------------------------
+			pictureBoxClean_N();
+			for (int j = 1; j <= class_value; j++) {
+				do {
+					Error = 0;
+
+					for (int i = 0; i < Total_size; i++) {
+
+						//FNet1 calculation
+						fnet1 = TransMul(w[j-1], p[i]); // -1 bias gÃ¼ncellemesi yapildi.
+						double val = SigmoidFunc(fnet1);
+
+						if (p[i].id == j)
+							p[i].temp_id = 1;
+						else
+							p[i].temp_id = -1;
+
+
+
+						Error += (pow(p[i].temp_id - val, 2) * 0.5);
+
+
+
+						if (fabs(Error) >= 0.4) {
+
+							derActivationFunc = derSigmoidFunc(val);
+							DW_Value = c * (p[i].temp_id - val) * derActivationFunc; // c*(d-fnet)*fnet'*x)
+
+
+							Samples deger;
+
+							deger = w_mulCalculation(DW_Value, p[i]);
+
+							w[j - 1] = w_sumCalculation(w[j - 1], deger);
+
+						}
+					}
+
+
+
+				} while (fabs(Error) > 0.4); // hata 0.6 dan buyuk oldugu muddetce devam et
+				
+
+
+				Pen^ pen = gcnew Pen(Color::FromArgb( clr[j - 1].R, clr[j - 1].G, clr[j - 1].B), 2.0f);
+
+				double y1 = ((w[j-1].w3 - (w[j-1].w1 * (pictureBox1->Width / -2))) / (w[j-1].w2));
+				double y2 = ((w[j-1].w3 - (w[j-1].w1 * (pictureBox1->Width / 2))) / (w[j-1].w2));
+
+				pictureBox1->CreateGraphics()->DrawLine(pen, 0, pictureBox1->Height / 2 - y1, pictureBox1->Width, pictureBox1->Height / 2 - y2);
+				
+			}
+			// Normalize edilmiÃ¾ dogrularÃ½ ciz.
+			
+			
+
+
+			// cizgiyi ciz..
+
+			
+		}
+
 
 	
 	}
 
 
+
+
+
+	private: System::Void checkBox1_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (!p) {
+
+			MessageBox::Show("Noktalari SeÃ§iniz.");
+			checkBox1->Checked = false;
+		}
+		else {
+
+			BatchNormalization(p, Total_size);
+			//Drawing Normalization points
+			this->pictureBoxClean_N();
+              
+
+			x_info->Text = Convert::ToString(p[Total_size - 1].x);
+			y_info->Text = Convert::ToString(p[Total_size - 1].y);
+			id_info->Text = Convert::ToString(p[Total_size - 1].id);
+			total_value->Text = Convert::ToString(Total_size);
+
+		}
+
+	}
 
 
 };
