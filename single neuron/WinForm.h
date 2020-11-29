@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include "Classification.h"
 #include <time.h> 
+#include <math.h>
 
 
 namespace ProjectANN {
@@ -23,7 +24,6 @@ namespace ProjectANN {
 		{
 			InitializeComponent();
 			Total_size = Class1_size = Class2_size = 0; //Baþlangýçta eleman sayýsý 0 dýr.
-			//double* w = {};
 			//
 			//TODO: Oluþturucu kodunu buraya ekle
 			//
@@ -71,6 +71,9 @@ namespace ProjectANN {
 	private: System::Windows::Forms::Label^ y_info;
 	private: System::Windows::Forms::Label^ id_info;
 	private: System::Windows::Forms::Label^ total_value;
+	private: System::Windows::Forms::ToolStripMenuItem^ binaryToolStripMenuItem1;
+	private: System::Windows::Forms::ToolStripMenuItem^ continousToolStripMenuItem;
+	private: System::Windows::Forms::CheckBox^ checkBox1;
 
 		   System::ComponentModel::Container^ components;
 
@@ -85,6 +88,8 @@ namespace ProjectANN {
 			   this->processToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			   this->rastgeleToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			   this->binaryToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			   this->binaryToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			   this->continousToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			   this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			   this->Class1Button = (gcnew System::Windows::Forms::CheckBox());
 			   this->Class2Button = (gcnew System::Windows::Forms::CheckBox());
@@ -97,6 +102,7 @@ namespace ProjectANN {
 			   this->y_info = (gcnew System::Windows::Forms::Label());
 			   this->id_info = (gcnew System::Windows::Forms::Label());
 			   this->total_value = (gcnew System::Windows::Forms::Label());
+			   this->checkBox1 = (gcnew System::Windows::Forms::CheckBox());
 			   this->menuStrip1->SuspendLayout();
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			   this->SuspendLayout();
@@ -129,10 +135,27 @@ namespace ProjectANN {
 			   // 
 			   // binaryToolStripMenuItem
 			   // 
+			   this->binaryToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				   this->binaryToolStripMenuItem1,
+					   this->continousToolStripMenuItem
+			   });
 			   this->binaryToolStripMenuItem->Name = L"binaryToolStripMenuItem";
 			   this->binaryToolStripMenuItem->Size = System::Drawing::Size(118, 22);
-			   this->binaryToolStripMenuItem->Text = L"Binary";
-			   this->binaryToolStripMenuItem->Click += gcnew System::EventHandler(this, &WinForm::binaryToolStripMenuItem_Click);
+			   this->binaryToolStripMenuItem->Text = L"Training";
+			   // 
+			   // binaryToolStripMenuItem1
+			   // 
+			   this->binaryToolStripMenuItem1->Name = L"binaryToolStripMenuItem1";
+			   this->binaryToolStripMenuItem1->Size = System::Drawing::Size(129, 22);
+			   this->binaryToolStripMenuItem1->Text = L"Binary";
+			   this->binaryToolStripMenuItem1->Click += gcnew System::EventHandler(this, &WinForm::binaryToolStripMenuItem1_Click);
+			   // 
+			   // continousToolStripMenuItem
+			   // 
+			   this->continousToolStripMenuItem->Name = L"continousToolStripMenuItem";
+			   this->continousToolStripMenuItem->Size = System::Drawing::Size(129, 22);
+			   this->continousToolStripMenuItem->Text = L"Continous";
+			   this->continousToolStripMenuItem->Click += gcnew System::EventHandler(this, &WinForm::continousToolStripMenuItem_Click);
 			   // 
 			   // pictureBox1
 			   // 
@@ -243,11 +266,23 @@ namespace ProjectANN {
 			   this->total_value->Size = System::Drawing::Size(0, 13);
 			   this->total_value->TabIndex = 12;
 			   // 
+			   // checkBox1
+			   // 
+			   this->checkBox1->AutoSize = true;
+			   this->checkBox1->Location = System::Drawing::Point(571, 230);
+			   this->checkBox1->Name = L"checkBox1";
+			   this->checkBox1->Size = System::Drawing::Size(92, 17);
+			   this->checkBox1->TabIndex = 13;
+			   this->checkBox1->Text = L"Normalization ";
+			   this->checkBox1->UseVisualStyleBackColor = true;
+			   this->checkBox1->CheckedChanged += gcnew System::EventHandler(this, &WinForm::checkBox1_CheckedChanged);
+			   // 
 			   // WinForm
 			   // 
 			   this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			   this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			   this->ClientSize = System::Drawing::Size(713, 456);
+			   this->Controls->Add(this->checkBox1);
 			   this->Controls->Add(this->total_value);
 			   this->Controls->Add(this->id_info);
 			   this->Controls->Add(this->y_info);
@@ -281,6 +316,7 @@ namespace ProjectANN {
 		Class1Button->Checked = false;
 		Class2Button->Checked = true;
 	}
+	
 
 
 	private: System::Void pictureBox1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
@@ -315,6 +351,7 @@ namespace ProjectANN {
 					Total_size = Class1_size = 1;
 					p = new Samples[1];
 					p[0].x = x_eksen;  p[0].y = y_eksen;  p[0].id = CLASS1;
+					//p = NormalizationR1(p); // -------------------------------------delta---------------
 				}
 				else {
 					Samples* temp;
@@ -333,6 +370,7 @@ namespace ProjectANN {
 					p[Total_size - 1].x = x_eksen;
 					p[Total_size - 1].y = y_eksen;
 					p[Total_size - 1].id = CLASS1;
+					//p[Total_size - 1] = NormalizationR1(p[Total_size - 1]); // ---------------------delta---------------------------
 
 
 				}
@@ -343,7 +381,7 @@ namespace ProjectANN {
 
 				Pen^ pen = gcnew Pen(Color::RosyBrown, 3.0f);
 				double x_eksen, y_eksen;
-				int temp_x, temp_y;
+				int temp_x, temp_y; // ................................................?
 				temp_x = (System::Convert::ToInt32(e->X));
 				temp_y = (System::Convert::ToInt32(e->Y));
 				x_eksen = (double)(temp_x - (pictureBox1->Width) / 2); // pictureBox->Width >> 1 
@@ -358,6 +396,7 @@ namespace ProjectANN {
 					Total_size = Class2_size = 1;
 					p = new Samples[1];
 					p[0].x = x_eksen;  p[0].y = y_eksen;  p[0].id = CLASS2;
+					//p = NormalizationR1(p); // ---------------------delta---------------------------
 				}
 				else {
 
@@ -377,6 +416,7 @@ namespace ProjectANN {
 					p[Total_size - 1].x = x_eksen;
 					p[Total_size - 1].y = y_eksen;
 					p[Total_size - 1].id = CLASS2;
+					//p[Total_size - 1] = NormalizationR1(p[Total_size - 1]); // ---------------------delta---------------------------
 				}
 
 
@@ -426,57 +466,202 @@ namespace ProjectANN {
 
 	}
 
-	private: System::Void binaryToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+
+    private: System::Void binaryToolStripMenuItem1_Click(System::Object^ sender, System::EventArgs^ e) {
 		if (w == NULL)
 			MessageBox::Show("Önce rastgele bir doðru oluþturunuz.");
 
 		else {
-			float c = 0.1;
+			double c = 0.1;
 
-			int fnet1 = 0;
+			double fnet1 = 0;
 			int wrong = 0;
-			
+
+			//--------------------------------------------------------------------Preception Rule ------------------------------------------------------------------
+
+
 			do {
 				wrong = 0;
 				for (int i = 0; i < Total_size; i++) {
 
-					//FNet1 calculation hep merak ettim oraya nasýl yorum eklerim diye  nasýl 
+					//FNet1 calculation
 					fnet1 = TransMul(w, p[i]); // -1 bias güncellemesi yapýldý.
 					int val = sgn(fnet1);
-					//MessageBox::Show("FNet1 return :",Convert::ToString(val));  
+					//MessageBox::Show("FNet1 return :",Convert::ToString(val));
 					//MessageBox::Show("FNet1 return :", Convert::ToString(w[i].w1));
 
 					if (p[i].id != val) {
 						wrong = 1;
 						Samples temp;
-						double fac = (c * (p[i].id - val));  // fac -> katsayý  
+						double fac = (c * (p[i].id - val));  // fac -> katsayý
 						temp = w_mulCalculation(fac, p[i]);  // c[di - fnet]*x
-						w = w_sumCalculation(w, temp); // w[i] + c[di - fnet]*x[i] 
+						w = w_sumCalculation(w, temp); // w[i] + c[di - fnet]*x[i]
 					}
 					richTextBox1->AppendText("\n\n" + Convert::ToString(i + 1) + "'nci nesil :" + "\n\nw1:" + Convert::ToString(w[i].w1) + " \n \nw2 :" + Convert::ToString(w[i].w2) + "\n \nw3 :" + Convert::ToString(w[i].w3));
 				}
 
-				/*Pen^ pen = gcnew Pen(Color::Black, 1.0f);
-				 
-				double y1= ((double)(w->w3 - (w->w1 * p->y)) / (double)(w->w2));
-				double y2 = ((double)(w->w3 - (w->w1 * p->x)) / (double)(w->w2));
-				 
-				pictureBox1->CreateGraphics()->DrawLine(pen, 0, pictureBox1->Height / 2 -y1 , pictureBox1->Width, pictureBox1->Height / 2 - y2);*/
 			} while (wrong);
 
 			Pen^ pen = gcnew Pen(Color::Black, 1.0f);
-
-			/*int minX = pictureBox1->Width / -2;
-		int minY = (w[2] - minX * w[0]) / w[1];
-		int maxX = pictureBox1->Width / 2;
-		int maxY = (w[2] - maxX * w[0]) / w[1];*/
 
 			double y1 = ((w->w3 - (w->w1 * (pictureBox1->Width / -2))) / (w->w2));
 			double y2 = ((w->w3 - (w->w1 * (pictureBox1->Width / 2))) / (w->w2));
 
 			pictureBox1->CreateGraphics()->DrawLine(pen, 0, pictureBox1->Height / 2 - y1, pictureBox1->Width, pictureBox1->Height / 2 - y2);
+
+
+
 		}
+    
+    
+    }
+
+
+
+
+    private: System::Void continousToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (w == NULL)
+		MessageBox::Show("Önce rastgele bir doðru oluþturunuz.");
+
+	else {
+
+		double c = 0.1;
+		double fnet1 = 0;
+		double Error = 0;
+		double derActivationFunc=0;
+		double DW_Value = 0;
+
+		//-------------------------------------------------------------------Delta Rule -------------------------------------------------------------------------
+
+		do {
+ 			Error = 0;
+			for (int i = 0; i < Total_size; i++) {
+
+				//FNet1 calculation
+				fnet1 = TransMul(w, p[i]); // -1 bias güncellemesi yapýldý.
+				double val = SigmoidFunc(fnet1);
+				//MessageBox::Show("a:", Convert::ToString(val));
+
+				Error += (pow(p[i].id - val, 2)*0.5);
+
+		
+
+				if (fabs(Error) >= 0.6) {
+					//Error = 0;
+				    derActivationFunc = derSigmoidFunc(val); 
+				    DW_Value = c * (p[i].id - val) *derActivationFunc; // c*(d-fnet)*fnet'*x)
+					
+					
+					Samples deger ;
+
+				    deger = w_mulCalculation(DW_Value, p[i]);
+
+					w = w_sumCalculation(w, deger);
+
+				}
+				richTextBox1->AppendText("\n\n" + Convert::ToString(i + 1) + "'nci nesil :" + "\n\nw1:" + Convert::ToString(w->w1) + " \n \nw2 :" + Convert::ToString(w->w2) + "\n \nw3 :" + Convert::ToString(w->w3));
+			}
+
+		} while (fabs(Error) > 0.6); // hata 0.6 dan buyuk oldugu muddetce devam et
+
+		// Normalize edilmiþ dogrularý ciz.
+		Pen^ pen = gcnew Pen(Color::Green, 3.0f);
+
+		for (int i = 0; i < Total_size; i++) {
+
+			if (p[i].id == 1) {
+
+				Pen^ pen = gcnew Pen(Color::Red, 2.0f);
+				double x_eksen = (double)(+ (p[i].x * 20 + p[i].bias) + (pictureBox1->Width >> 1));
+				double y_eksen = (double)(+(pictureBox1->Height >> 1) - (p[i].y * 20 + p[i].bias));
+				pictureBox1->CreateGraphics()->DrawRectangle(pen, x_eksen , y_eksen , 1, 1);
+			}
+
+			if (p[i].id == -1) {
+				Pen^ pen = gcnew Pen(Color::Purple, 2.0f);
+				double x_eksen = (double)(+(p[i].x * 20 + p[i].bias) + (pictureBox1->Width >> 1));
+				double y_eksen = (double)(+(pictureBox1->Height >> 1) - (p[i].y * 20 + p[i].bias));
+				pictureBox1->CreateGraphics()->DrawRectangle(pen, x_eksen , y_eksen , 1, 1);
+			}
+			
+			
+		}
+
+
+		// cizgiyi ciz..
+
+		double y1 = ((w->w3 - (w->w1 * (pictureBox1->Width / -2))) / (w->w2));
+		double y2 = ((w->w3 - (w->w1 * (pictureBox1->Width / 2))) / (w->w2));
+
+		pictureBox1->CreateGraphics()->DrawLine(pen, 0, pictureBox1->Height / 2 - y1, pictureBox1->Width, pictureBox1->Height / 2 - y2);
 	}
+
+
+}
+
+
+	private: System::Void checkBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+		if (!p) {
+
+			MessageBox::Show("Noktalarý Seçiniz.");  
+			checkBox1->Checked = false;
+		}
+		else {
+
+			BatchNormalization(p, Total_size);
+		   // NormalizationR1(p, Total_size); //-----------------------------bak buna 0-1 arasýný yay.
+
+			/*
+			for (int i = 0; i < Total_size; i++) {
+
+				if (p[i].id ==1) {
+
+					Pen^ pen = gcnew Pen(Color::Yellow, 3.0f);
+					double nokta_x =(p[i].x * 100 + p[i].bias);
+					double nokta_y = p[i].y * 100 + p[i].bias;
+					double x_eksen = (double)(+(p[i].x * 100 + p[i].bias) + (pictureBox1->Width >> 1));
+					double y_eksen = (double)(+(pictureBox1->Height >> 1) - (p[i].y * 100 + p[i].bias));
+					double temp = (x_eksen - (2 * nokta_x));
+					double temp2 = (y_eksen + (2 * nokta_y));
+					pictureBox1->CreateGraphics()->DrawRectangle(pen, temp, temp2, 1, 1);
+				}
+
+				if (p[i].id == -1) {
+					Pen^ pen = gcnew Pen(Color::Green, 3.0f);
+					double x_eksen = (double)(+(p[i].x * 100 + p[i].bias) + (pictureBox1->Width >> 1));
+					double y_eksen = (double)(+(pictureBox1->Height >> 1) - (p[i].y * 100 + p[i].bias));
+					pictureBox1->CreateGraphics()->DrawRectangle(pen, x_eksen, y_eksen, 1, 1);
+				}
+
+
+			}
+			*/
+
+
+
+
+
+
+
+			x_info->Text = Convert::ToString(p[Total_size - 1].x);
+			y_info->Text = Convert::ToString(p[Total_size - 1].y);
+			id_info->Text = Convert::ToString(p[Total_size - 1].id);
+			total_value->Text = Convert::ToString(Total_size);
+
+			
+
+
+
+
+			
+
+		}
+		
+
+	}
+
+
+
 
 };
 }
