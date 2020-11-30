@@ -159,7 +159,7 @@ namespace ProjectANN {
 			   // 
 			   // pictureBox1
 			   // 
-			   this->pictureBox1->BackColor = System::Drawing::SystemColors::ActiveBorder;
+			   this->pictureBox1->BackColor = System::Drawing::SystemColors::Window;
 			   this->pictureBox1->Location = System::Drawing::Point(12, 27);
 			   this->pictureBox1->Name = L"pictureBox1";
 			   this->pictureBox1->Size = System::Drawing::Size(501, 417);
@@ -316,9 +316,31 @@ namespace ProjectANN {
 		Class1Button->Checked = false;
 		Class2Button->Checked = true;
 	}
-	
+	void pictureBoxClean() {
+
+		pictureBox1->CreateGraphics()->Clear(Color::FromArgb(255, 255, 255));
+		//Pen^ pen = gcnew Pen(Color::FromArgb(255, 255, 255), 3.0f);
+
+		Pen^ pen = gcnew Pen(Color::White, 2.0f);
+		for (int i = 0; i < Total_size; i++) {
+			if (p[i].id == -1) 
+				pen->Color = Color::DeepSkyBlue ;
+			
+			else
+				pen->Color = Color::RosyBrown ;
 
 
+			int x_eksen = (p[i].x) + (pictureBox1->Width >> 1);
+			int y_eksen = (pictureBox1->Height >> 1) - (p[i].y);
+			pictureBox1->CreateGraphics()->DrawRectangle(pen, x_eksen, y_eksen, 1, 1);
+			
+			
+		}
+		System::Drawing::Rectangle r;
+		PaintEventArgs^ f = gcnew PaintEventArgs(pictureBox1->CreateGraphics(), r);
+		pictureBox1_Paint(this, f);
+
+	}
 	private: System::Void pictureBox1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 
 		Pen^ pen = gcnew Pen(Color::Black, 3.0f);
@@ -456,7 +478,7 @@ namespace ProjectANN {
 
 
 
-		Pen^ pen = gcnew Pen(Color::Purple, 3.0f);
+		Pen^ pen = gcnew Pen(Color::Purple, 2.0f);
 
 		pictureBox1->CreateGraphics()->DrawLine(pen, pictureBox1->Width / 2 + minX, pictureBox1->Height / 2 - minY, pictureBox1->Width / 2 + maxX, pictureBox1->Height / 2 - maxY);
 		//pictureBox1->CreateGraphics()->DrawLine(pen, pictureBox1->Width / 2 + 100, pictureBox1->Height / 2 -50 ,pictureBox1->Width / 2 -120, pictureBox1->Height / 2 +80);
@@ -466,12 +488,12 @@ namespace ProjectANN {
 
 	}
 
-
     private: System::Void binaryToolStripMenuItem1_Click(System::Object^ sender, System::EventArgs^ e) {
 		if (w == NULL)
 			MessageBox::Show("Önce rastgele bir doðru oluþturunuz.");
 
 		else {
+			
 			double c = 0.1;
 
 			double fnet1 = 0;
@@ -487,9 +509,6 @@ namespace ProjectANN {
 					//FNet1 calculation
 					fnet1 = TransMul(w, p[i]); // -1 bias güncellemesi yapýldý.
 					int val = sgn(fnet1);
-					//MessageBox::Show("FNet1 return :",Convert::ToString(val));
-					//MessageBox::Show("FNet1 return :", Convert::ToString(w[i].w1));
-
 					if (p[i].id != val) {
 						wrong = 1;
 						Samples temp;
@@ -502,7 +521,8 @@ namespace ProjectANN {
 
 			} while (wrong);
 
-			Pen^ pen = gcnew Pen(Color::Black, 1.0f);
+			pictureBoxClean();
+			Pen^ pen = gcnew Pen(Color::Purple, 2.0f);
 
 			double y1 = ((w->w3 - (w->w1 * (pictureBox1->Width / -2))) / (w->w2));
 			double y2 = ((w->w3 - (w->w1 * (pictureBox1->Width / 2))) / (w->w2));
@@ -516,15 +536,12 @@ namespace ProjectANN {
     
     }
 
-
-
-
     private: System::Void continousToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 	if (w == NULL)
 		MessageBox::Show("Önce rastgele bir doðru oluþturunuz.");
 
 	else {
-
+		pictureBoxClean();
 		double c = 0.1;
 		double fnet1 = 0;
 		double Error = 0;
@@ -540,17 +557,12 @@ namespace ProjectANN {
 				//FNet1 calculation
 				fnet1 = TransMul(w, p[i]); // -1 bias güncellemesi yapýldý.
 				double val = SigmoidFunc(fnet1);
-				//MessageBox::Show("a:", Convert::ToString(val));
 
 				Error += (pow(p[i].id - val, 2)*0.5);
 
-		
-
 				if (fabs(Error) >= 0.6) {
-					//Error = 0;
 				    derActivationFunc = derSigmoidFunc(val); 
-				    DW_Value = c * (p[i].id - val) *derActivationFunc; // c*(d-fnet)*fnet'*x)
-					
+				    DW_Value = c * (p[i].id - val) *derActivationFunc; // c*(d-fnet)*fnet'*x)				
 					
 					Samples deger ;
 
@@ -565,31 +577,12 @@ namespace ProjectANN {
 		} while (fabs(Error) > 0.6); // hata 0.6 dan buyuk oldugu muddetce devam et
 
 		// Normalize edilmiþ dogrularý ciz.
-		Pen^ pen = gcnew Pen(Color::Green, 3.0f);
+		
 
-		for (int i = 0; i < Total_size; i++) {
-
-			if (p[i].id == 1) {
-
-				Pen^ pen = gcnew Pen(Color::Red, 2.0f);
-				double x_eksen = (double)(+ (p[i].x * 20 + p[i].bias) + (pictureBox1->Width >> 1));
-				double y_eksen = (double)(+(pictureBox1->Height >> 1) - (p[i].y * 20 + p[i].bias));
-				pictureBox1->CreateGraphics()->DrawRectangle(pen, x_eksen , y_eksen , 1, 1);
-			}
-
-			if (p[i].id == -1) {
-				Pen^ pen = gcnew Pen(Color::Purple, 2.0f);
-				double x_eksen = (double)(+(p[i].x * 20 + p[i].bias) + (pictureBox1->Width >> 1));
-				double y_eksen = (double)(+(pictureBox1->Height >> 1) - (p[i].y * 20 + p[i].bias));
-				pictureBox1->CreateGraphics()->DrawRectangle(pen, x_eksen , y_eksen , 1, 1);
-			}
-			
-			
-		}
-
+		
 
 		// cizgiyi ciz..
-
+		Pen^ pen = gcnew Pen(Color::Purple, 2.0f);
 		double y1 = ((w->w3 - (w->w1 * (pictureBox1->Width / -2))) / (w->w2));
 		double y2 = ((w->w3 - (w->w1 * (pictureBox1->Width / 2))) / (w->w2));
 
@@ -609,37 +602,6 @@ namespace ProjectANN {
 		else {
 
 			BatchNormalization(p, Total_size);
-		   // NormalizationR1(p, Total_size); //-----------------------------bak buna 0-1 arasýný yay.
-
-			/*
-			for (int i = 0; i < Total_size; i++) {
-
-				if (p[i].id ==1) {
-
-					Pen^ pen = gcnew Pen(Color::Yellow, 3.0f);
-					double nokta_x =(p[i].x * 100 + p[i].bias);
-					double nokta_y = p[i].y * 100 + p[i].bias;
-					double x_eksen = (double)(+(p[i].x * 100 + p[i].bias) + (pictureBox1->Width >> 1));
-					double y_eksen = (double)(+(pictureBox1->Height >> 1) - (p[i].y * 100 + p[i].bias));
-					double temp = (x_eksen - (2 * nokta_x));
-					double temp2 = (y_eksen + (2 * nokta_y));
-					pictureBox1->CreateGraphics()->DrawRectangle(pen, temp, temp2, 1, 1);
-				}
-
-				if (p[i].id == -1) {
-					Pen^ pen = gcnew Pen(Color::Green, 3.0f);
-					double x_eksen = (double)(+(p[i].x * 100 + p[i].bias) + (pictureBox1->Width >> 1));
-					double y_eksen = (double)(+(pictureBox1->Height >> 1) - (p[i].y * 100 + p[i].bias));
-					pictureBox1->CreateGraphics()->DrawRectangle(pen, x_eksen, y_eksen, 1, 1);
-				}
-
-
-			}
-			*/
-
-
-
-
 
 
 
@@ -659,6 +621,7 @@ namespace ProjectANN {
 		
 
 	}
+
 
 
 

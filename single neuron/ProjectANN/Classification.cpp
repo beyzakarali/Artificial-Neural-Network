@@ -15,35 +15,7 @@ int sgn(double value) {
 	
 	return value > 0 ? 1 : -1;
 }
-/*
-double transpose(double matrix) {
 
-	// Pek dinamik olmadý ama iþimi görür gibi .......................
-	double *transpose; 
-	for (int i = 0 ; i < 3 ; ++i) {
-		for (int j = 0; j < 1; ++j) {
-		//	transpose[j][i] = matrix[i][j];
-		}
-	}
-	return *transpose;
-
-}
-*/
-
-/*
-int mulmatrix(double * matrix1[3][1], double* matrix2[1][3]) {
-	int r = 0;
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 1; j++)
-		{
-			r += ((*matrix1[i][j]) * (*matrix2[j][i]));
-
-		}
-	}
-	return r;
-}
-*/
 
 //Matrix multiplication.
 double TransMul(W  *matrix1, Samples  matrix2) { 
@@ -51,7 +23,6 @@ double TransMul(W  *matrix1, Samples  matrix2) {
 }
 
 //Matrix multiplication with constant value.
-// sabit * x 
 Samples w_mulCalculation(double val, Samples m ) {
 	Samples m1;
 
@@ -132,10 +103,10 @@ void BatchNormalization(Samples *p , int total_size) {
 
 	for (int i = 0; i < total_size; i++) {
 		 p[i].x = (p[i].x - ao_x) / ss_x;
-		// p[i].x = (p[i].x)* 10);//+ p[i].bias ;
+		 p[i].x = (p[i].x * 10);//+ p[i].bias ;
 
 		 p[i].y = (p[i].y - ao_y) / ss_y;
-		 //p[i].y = (p[i].y * 10);//+ p[i].bias;
+		 p[i].y = (p[i].y * 10);//+ p[i].bias;
 
 	}
 	
