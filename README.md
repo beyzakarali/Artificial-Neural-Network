@@ -4,7 +4,7 @@ Classifications have been made in different categories.
     - discrete (Perceptron Learning Rule)
     - continuos (Delta Learning Rule)
     
-    ![ ](single-continous.gif)
+![ ](single-continous.gif)
     
 ### -Multy Category Single Layer Neural Network 
     - Discrete (Perceptron L.R) 
