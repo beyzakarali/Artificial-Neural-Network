@@ -10,4 +10,4 @@ Classifications have been made in different categories.
     - Discrete (Perceptron L.R) 
     - Continous (Delta L.R)
     
-    ![ ](multy-discrete.gif)
+![ ](multy-discrete.gif)
