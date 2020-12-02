@@ -7,7 +7,7 @@ Classifications have been made in different categories.
 ![ ](single-continous.gif)
     
 ### -Multy Category Single Layer Neural Network 
-    - Discrete (Perceptron L.R) 
-    - Continous (Delta L.R)
+    - Discrete (Perceptron Learning Rule) 
+    - Continous (Delta Learning Rule)
     
 ![ ](Multy-Discrete.gif)
