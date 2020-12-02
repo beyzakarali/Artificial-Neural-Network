@@ -699,7 +699,7 @@ namespace MultyNeuron {
 
 
 
-						if (fabs(Error) >= 0.4) {
+						if (fabs(Error) >= 0.6) {
 
 							derActivationFunc = derSigmoidFunc(val);
 							DW_Value = c * (p[i].temp_id - val) * derActivationFunc; // c*(d-fnet)*fnet'*x)
@@ -716,7 +716,7 @@ namespace MultyNeuron {
 
 
 
-				} while (fabs(Error) > 0.4); // hata 0.6 dan buyuk oldugu muddetce devam et
+				} while (fabs(Error) > 0.6); // hata 0.6 dan buyuk oldugu muddetce devam et
 				
 
 
