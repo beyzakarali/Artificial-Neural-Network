@@ -80,6 +80,7 @@ namespace MultyNeuron {
 	private: System::Windows::Forms::ToolStripMenuItem^ trainToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ discreteToolStripMenuItem2;
 	private: System::Windows::Forms::ToolStripMenuItem^ countinousToolStripMenuItem;
+	private: System::Windows::Forms::Label^ cycle_info;
 	private: System::ComponentModel::IContainer^ components;
 
 		 /// <summary>
@@ -125,6 +126,7 @@ namespace MultyNeuron {
 			this->trainToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->discreteToolStripMenuItem2 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->countinousToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->cycle_info = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->BeginInit();
@@ -385,11 +387,20 @@ namespace MultyNeuron {
 			this->countinousToolStripMenuItem->Text = L"Countinous";
 			this->countinousToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::countinousToolStripMenuItem_Click);
 			// 
+			// cycle_info
+			// 
+			this->cycle_info->AutoSize = true;
+			this->cycle_info->Location = System::Drawing::Point(739, 135);
+			this->cycle_info->Name = L"cycle_info";
+			this->cycle_info->Size = System::Drawing::Size(0, 13);
+			this->cycle_info->TabIndex = 20;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(784, 438);
+			this->Controls->Add(this->cycle_info);
 			this->Controls->Add(this->menuStrip1);
 			this->Controls->Add(this->total_value);
 			this->Controls->Add(this->id_info);
@@ -557,8 +568,9 @@ namespace MultyNeuron {
 			int G = p[i].cl.G;
 			int B = p[i].cl.B;
 			pen->Color = Color::FromArgb(R, G, B);
-			double x_eksen = (double)(+(p[i].x) + (pictureBox1->Width >> 1));
-			double y_eksen = (double)(+(pictureBox1->Height >> 1) - (p[i].y));
+			// Points scale for normalization
+			double x_eksen = (double)(+(p[i].x)*20 + (pictureBox1->Width >> 1));
+			double y_eksen = (double)(+(pictureBox1->Height >> 1) - (p[i].y)*20);
 			pictureBox1->CreateGraphics()->DrawRectangle(pen, x_eksen, y_eksen, 1, 1);
 		}
 
@@ -676,6 +688,8 @@ namespace MultyNeuron {
 			double derActivationFunc = 0;
 			double DW_Value = 0;
 
+			int size_i = 0 , size_j = 0, total =0;
+			 
 			//-------------------------------------------------------------------Delta Rule -------------------------------------------------------------------------
 			pictureBoxClean_N();
 			for (int j = 1; j <= class_value; j++) {
@@ -697,7 +711,7 @@ namespace MultyNeuron {
 
 						Error += (pow(p[i].temp_id - val, 2) * 0.5);
 
-
+						
 
 						if (fabs(Error) >= 0.6) {
 
@@ -712,28 +726,33 @@ namespace MultyNeuron {
 							w[j - 1] = w_sumCalculation(w[j - 1], deger);
 
 						}
+						size_i = i +1;
 					}
 
+					size_j = (size_i*j)+1;
+					
 
+				} while (fabs(Error) > 0.6); 
 
-				} while (fabs(Error) > 0.6); // hata 0.6 dan buyuk oldugu muddetce devam et
-				
+				total += size_j;
 
 
 				Pen^ pen = gcnew Pen(Color::FromArgb( clr[j - 1].R, clr[j - 1].G, clr[j - 1].B), 2.0f);
 
-				double y1 = ((w[j-1].w3 - (w[j-1].w1 * (pictureBox1->Width / -2))) / (w[j-1].w2));
-				double y2 = ((w[j-1].w3 - (w[j-1].w1 * (pictureBox1->Width / 2))) / (w[j-1].w2));
+				// lines scale for scale points
+				double y1 = ((w[j-1].w3 * 20 - (w[j-1].w1 * (pictureBox1->Width / -2))) / (w[j-1].w2));//---------------------
+				double y2 = ((w[j-1].w3 * 20 - (w[j-1].w1 * (pictureBox1->Width / 2))) / (w[j-1].w2));//----------------------
 
 				pictureBox1->CreateGraphics()->DrawLine(pen, 0, pictureBox1->Height / 2 - y1, pictureBox1->Width, pictureBox1->Height / 2 - y2);
 				
+				MessageBox::Show(Convert::ToString(size_j));
 			}
-			// Normalize edilmiþ dogrularý ciz.
 			
 			
+			cycle_info->Text = Convert::ToString(total);
 
 
-			// cizgiyi ciz..
+			
 
 			
 		}

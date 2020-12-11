@@ -341,6 +341,29 @@ namespace ProjectANN {
 		pictureBox1_Paint(this, f);
 
 	}
+	void pictureBoxClean_N() {
+		pictureBox1->CreateGraphics()->Clear(Color::FromArgb(255, 255, 255));
+
+		Pen^ pen = gcnew Pen(Color::White, 2.0f);
+		for (int i = 0; i < Total_size; i++) {
+			if (p[i].id == -1)
+				pen->Color = Color::DeepSkyBlue;
+
+			else
+				pen->Color = Color::RosyBrown;
+
+			// scale normalization points
+			int x_eksen = (p[i].x)*20 + (pictureBox1->Width >> 1);
+			int y_eksen = (pictureBox1->Height >> 1) - (p[i].y)*20;
+			pictureBox1->CreateGraphics()->DrawRectangle(pen, x_eksen, y_eksen, 1, 1);
+
+
+		}
+		System::Drawing::Rectangle r;
+		PaintEventArgs^ f = gcnew PaintEventArgs(pictureBox1->CreateGraphics(), r);
+		pictureBox1_Paint(this, f);
+	}
+
 	private: System::Void pictureBox1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 
 		Pen^ pen = gcnew Pen(Color::Black, 3.0f);
@@ -541,7 +564,7 @@ namespace ProjectANN {
 		MessageBox::Show("Önce rastgele bir doðru oluþturunuz.");
 
 	else {
-		pictureBoxClean();
+		pictureBoxClean_N();
 		double c = 0.1;
 		double fnet1 = 0;
 		double Error = 0;
@@ -583,8 +606,8 @@ namespace ProjectANN {
 
 		// cizgiyi ciz..
 		Pen^ pen = gcnew Pen(Color::Purple, 2.0f);
-		double y1 = ((w->w3 - (w->w1 * (pictureBox1->Width / -2))) / (w->w2));
-		double y2 = ((w->w3 - (w->w1 * (pictureBox1->Width / 2))) / (w->w2));
+		double y1 = ((w->w3*20 - (w->w1 * (pictureBox1->Width / -2))) / (w->w2));
+		double y2 = ((w->w3*20 - (w->w1 * (pictureBox1->Width / 2))) / (w->w2));
 
 		pictureBox1->CreateGraphics()->DrawLine(pen, 0, pictureBox1->Height / 2 - y1, pictureBox1->Width, pictureBox1->Height / 2 - y2);
 	}
@@ -600,8 +623,9 @@ namespace ProjectANN {
 			checkBox1->Checked = false;
 		}
 		else {
-
+			
 			BatchNormalization(p, Total_size);
+			
 
 
 
@@ -621,6 +645,7 @@ namespace ProjectANN {
 		
 
 	}
+
 
 
 

@@ -103,10 +103,10 @@ void BatchNormalization(Samples *p , int total_size) {
 
 	for (int i = 0; i < total_size; i++) {
 		 p[i].x = (p[i].x - ao_x) / ss_x;
-		 p[i].x = (p[i].x * 10);//+ p[i].bias ;
+		//p[i].x = (p[i].x * 10);//+ p[i].bias ;
 
 		 p[i].y = (p[i].y - ao_y) / ss_y;
-		 p[i].y = (p[i].y * 10);//+ p[i].bias;
+		//p[i].y = (p[i].y * 10);//+ p[i].bias;
 
 	}
 	
