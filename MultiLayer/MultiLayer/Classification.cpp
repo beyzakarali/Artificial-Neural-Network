@@ -37,22 +37,20 @@ void multiply_matrix(double a[], int row1, int col1, double b[], int row2, int c
 	for (int i = 0; i < row1; i++) {
 		for (int j = 0; j < col2; j++) {
 			double sum = 0;
-			for (int k = 0; k < col2; k++)
+			for (int k = 0; k < col1; k++)
 				sum = sum + a[i * col1 + k] * b[k * col2 + j];
 			o[i * col2 + j] = sum;
 		}
 
-		cout << "ILKI Y ICIN IKINCI O" << endl;
-		for (int i = 0; i < row1; i++) {
-			if (i % col2 == 0) {
-				cout << endl;
+	}
 
-			}
+	//double *d = new double[row1 * col2];
+	for (int i = 0; i < row1; i++) {
+		for (int j = 0; j < col2; j++) {
+			
 
-			cout << o[i];
 		}
 	}
-	
 
 }
 
@@ -121,9 +119,10 @@ double SigmoidFunc(double fnet) { // doðru çalýþýyor.
 double derSigmoidFunc(double fnet  ) { // doðru çalýsýyor.
 
 
+
 	
 
-		fnet = (1 - pow(fnet, 2)) * 0.5;
+	fnet = (1 - pow(fnet, 2)) * 0.5;
 	
 
 	

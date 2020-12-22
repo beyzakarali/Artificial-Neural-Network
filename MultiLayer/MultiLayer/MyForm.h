@@ -166,7 +166,7 @@ namespace MultiLayer {
 					this->randomToolStripMenuItem
 			});
 			this->ýnitializingToolStripMenuItem->Name = L"ýnitializingToolStripMenuItem";
-			this->ýnitializingToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->ýnitializingToolStripMenuItem->Size = System::Drawing::Size(128, 22);
 			this->ýnitializingToolStripMenuItem->Text = L"Initializing";
 			// 
 			// manualToolStripMenuItem
@@ -205,7 +205,7 @@ namespace MultiLayer {
 					this->continousToolStripMenuItem, this->contWithMomentToolStripMenuItem
 			});
 			this->trainingToolStripMenuItem->Name = L"trainingToolStripMenuItem";
-			this->trainingToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->trainingToolStripMenuItem->Size = System::Drawing::Size(128, 22);
 			this->trainingToolStripMenuItem->Text = L"Training";
 			// 
 			// binaryToolStripMenuItem
@@ -235,7 +235,7 @@ namespace MultiLayer {
 					this->showSamplesToolStripMenuItem
 			});
 			this->testToolStripMenuItem->Name = L"testToolStripMenuItem";
-			this->testToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->testToolStripMenuItem->Size = System::Drawing::Size(128, 22);
 			this->testToolStripMenuItem->Text = L"Test";
 			// 
 			// solutionAreaToolStripMenuItem
@@ -253,7 +253,7 @@ namespace MultiLayer {
 			// saveToolStripMenuItem
 			// 
 			this->saveToolStripMenuItem->Name = L"saveToolStripMenuItem";
-			this->saveToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->saveToolStripMenuItem->Size = System::Drawing::Size(128, 22);
 			this->saveToolStripMenuItem->Text = L"Save";
 			// 
 			// menuStrip1
@@ -450,8 +450,8 @@ namespace MultiLayer {
 			int G = p[i].cl.G;
 			int B = p[i].cl.B;
 			pen->Color = Color::FromArgb(R, G, B);
-			int x_eksen = (p[i].x) + (pictureBox1->Width >> 1);
-			int y_eksen = (pictureBox1->Height >> 1) - (p[i].y);
+			double x_eksen = (p[i].x) + (pictureBox1->Width >> 1);
+			double y_eksen = (pictureBox1->Height >> 1) - (p[i].y);
 			pictureBox1->CreateGraphics()->DrawRectangle(pen, x_eksen, y_eksen, 1, 1);
 		}
 		System::Drawing::Rectangle r;
@@ -601,24 +601,31 @@ namespace MultiLayer {
 		int class_value = Convert::ToInt32(Class_Size->Value);
 		int neuron_value = Convert::ToInt32(Neuron_Size->Value);
 		v = new V[neuron_value]; // Struct icin
-		w_m = new double[class_value * (neuron_value+1)]; // -1 bias eklendi.
-		v_m = new double[neuron_value*(boyut + 1)];  // V_matrix, +1 : BIAS
+		w_m = new double[class_value * (neuron_value+1)](); // -1 bias eklendi.
+		v_m = new double[neuron_value*(boyut + 1)]();  // V_matrix
 		// y matrisinde BIAS -1 OLMALI.!!! 
 
 		Pen^ pen;// = gcnew Pen(Color::FromArgb(255, 255, 255, 2.0f));
 		// V struct dolumu
+		int j = 0;
 		for (int i = 0; i < neuron_value; i++) {
 
+			
 			v[i].v1 = ((double)rand() / RAND_MAX); // matrisi doldur.
+
 			v[i].v2 = ((double)rand() / RAND_MAX); // matrisi doldur.
+
 			v[i].v3 = ((double)rand() / RAND_MAX); // matrisi doldur.
 
 			
+				
 			// Sizes determined
+			
 			int minX = pictureBox1->Width / -2;
 			int maxX = pictureBox1->Width / 2;
 			int minY = Ypoint(minX, v[i], 1);
 			int maxY = Ypoint(maxX, v[i], 1);
+			
 
 
 
@@ -629,27 +636,30 @@ namespace MultiLayer {
 
 			pictureBox1->CreateGraphics()->DrawLine(pen, pictureBox1->Width / 2 + minX, pictureBox1->Height / 2 - minY, pictureBox1->Width / 2 + maxX, pictureBox1->Height / 2 - maxY);
 			
+			j += 1;
 
 
 		}  
 		
 		// V matrix dolumu
-		int j = 0;
-		for (int i = 0; i < neuron_value; i++) {
 
-			//v_m[i] matrisi doldur.
-			cout << "V_MATRIXI" << endl;
 			
-			v_m[j] = v[i].v1; j++;     cout << v_m[j] << endl;
-			v_m[j] = v[i].v2; j++;     cout << v_m[j] << endl;
-			v_m[j] = v[i].v3;          cout << v_m[j] << endl;
-			j++;
+			for (int i = 0; i < neuron_value; i++) {
+
+				//v_m[i] matrisi doldur.
+				cout << "V_MATRIXI" << endl;
+			
+				v_m[i*3]     = v[i].v1;
+				v_m[i*3 + 1] = v[i].v2;
+				v_m[i*3 + 2] = v[i].v3;
 
 			
 		    
 
 
-		} // V Matrix dolumu
+			} // V Matrix dolumu
+		
+
 
 		for (int i = 0; i < class_value*(neuron_value + 1); i++) { // W [class x neuron+1] 
 
@@ -672,8 +682,8 @@ namespace MultiLayer {
 		int neuron_numb = Convert::ToInt32(Neuron_Size->Value);
 
 		//double *vi = new double[neuron_numb * Total_size]; // Neuron x Nokta sayisi
-		double* y = new double[neuron_numb + 1]; // Y [NEURON X 1]
-		double* o = new double[class_numb]; //   O  [CLASS X 1]
+		double* y = new double[neuron_numb + 1](); // Y [NEURON X 1]
+		double* o = new double[class_numb](); //   O  [CLASS X 1]
 
 
 		if (v == NULL)
@@ -702,8 +712,9 @@ namespace MultiLayer {
 					p_m[0] = p[j].x;
 					p_m[1] = p[j].y;
 					p_m[2] = p[j].bias;
+					cout << "hello world" << endl;
 
-					for (int i = 1; i <= class_numb; i++) { // CLASS
+					//for (int i = 1; i <= class_numb; i++) { // CLASS
 
 
 						/*
@@ -735,18 +746,20 @@ namespace MultiLayer {
 
 							if (p[j].id == k) {
 								p[j].temp_id = 1;
-								d_m[i] = 1;
+								d_m[k-1] = 1;
 
 							}
 
 							else {
 								p[j].temp_id = -1;
-								d_m[i] = -1;
+								d_m[k-1] = -1;
 							}
 						}
 
+						for (int k = 0; k < class_numb; k++) {
+							Error += (0.5) * (d_m[k] - o[k]);
+						}
 
-						Error = (0.5) * (d_m[i] - o[i]) + Error;
 
 						//-------------------------------------------------------BackForward----------------------------------------------------------------------
 						 //Tüm classlar icin error hesaplanmasi (ayni nokta)
@@ -755,7 +768,7 @@ namespace MultiLayer {
 						for (int k = 0; k < class_numb; k++) {
 							for (int j = 0; j < neuron_numb + 1; j++) {
 
-								sabit = c * (p[j].temp_id - o[k]); 
+								sabit = c * (d_m[k] - o[k]); 
 								
 								w_m[k * (neuron_numb + 1) + j] = (sabit * derSigmoidFunc(fnetk[k]) * y[j]) + w_m[k * (neuron_numb + 1) + j]; // c.(dk -ok).f'(netk).yj
 
@@ -770,7 +783,7 @@ namespace MultiLayer {
 						for (int j = 0; j < neuron_numb; j++) {
 
 							for (int k = 0; k < class_numb; k++) {
-								top += ((d_m[k] - o[k]) * SigmoidFunc(fnetk[k]) * w_m[j * neuron_numb + k]); // E (dk-ok).f'(netk).Wkj
+								top += ((d_m[k] - o[k]) * SigmoidFunc(fnetk[k]) * w_m[j * class_numb + k]); // E (dk-ok).f'(netk).Wkj
 							}
 
 							for (int i = 0; i < 3; i++) {
@@ -783,16 +796,17 @@ namespace MultiLayer {
 						
 
 						//--------------------------------------------------End BackPropagation------------------------------------------------------------------------ 
-						//Pen^ pen = gcnew Pen(Color::FromArgb(255, 123, 134, 234), 2.0f);
+						Pen^ pen = gcnew Pen(Color::FromArgb(255, 123, 134, 234), 2.0f);
 						//HER GUNCELLENEN GORULMELI
-						/*
+						
 						for (int j = 0; j < neuron_numb; j++) {
-							double y1= ((v_m[j + 2] - (v_m[j] * (pictureBox1->Width / -2))) / (v_m[j + 1]));
-							double y2 = ((v_m[j + 2] - (v_m[j] * (pictureBox1->Width / 2))) / (v_m[j + 1]));
+							double y1 = ((v_m[j*3 + 2]*20 - (v_m[j*3] * (pictureBox1->Width / -2))) / (v_m[j*3 + 1]));
+							double y2 = ((v_m[j*3 + 2]*20 - (v_m[j*3] * (pictureBox1->Width /  2))) / (v_m[j*3 + 1]));
 
 							pictureBox1->CreateGraphics()->DrawLine(pen, 0, pictureBox1->Height / 2 - y1, pictureBox1->Width, pictureBox1->Height / 2 - y2);
 						}
-						*/
+						
+						
 
 						
 						/*
@@ -802,19 +816,18 @@ namespace MultiLayer {
 
 						pictureBox1->CreateGraphics()->DrawLine(pen, 0, pictureBox1->Height / 2 - y1, pictureBox1->Width, pictureBox1->Height / 2 - y2);
 						*/
-					}
+					//}
 
 
 				}
 
-			} while (Error);
+			} while (Error<0.6);
 
 			Pen^ pen = gcnew Pen(Color::Red);
-			//HER GUNCELLENEN GORULMELI
 			for (int j = 0; j < neuron_numb; j++) {
 
-				double y1 = ((v_m[j + 2]*20 - (v_m[j] * (pictureBox1->Width / -2))) / (v_m[j + 1]));
-				double y2 = ((v_m[j + 2]*20 - (v_m[j] * (pictureBox1->Width / 2))) / (v_m[j + 1]));
+				double y1 = ((v_m[j*3 + 2]*20 - (v_m[j*3] * (pictureBox1->Width / -2))) / (v_m[j*3 + 1]));
+				double y2 = ((v_m[j*3 + 2]*20 - (v_m[j*3] * (pictureBox1->Width / 2))) /  (v_m[j*3 + 1]));
 
 				pictureBox1->CreateGraphics()->DrawLine(pen, 0, pictureBox1->Height / 2 - y1, pictureBox1->Width, pictureBox1->Height / 2 - y2);
 			}
@@ -835,8 +848,8 @@ namespace MultiLayer {
 		int neuron_numb = Convert::ToInt32(Neuron_Size->Value);
 
 		//double *vi = new double[neuron_numb * Total_size]; // Neuron x Nokta sayisi
-		double* y = new double[neuron_numb + 1]; // Y [NEURON X 1]
-		double* o = new double[class_numb]; //   O  [CLASS X 1]
+		double* y = new double[neuron_numb + 1](); // Y [NEURON X 1]
+		double* o = new double[class_numb](); //   O  [CLASS X 1]
 
 
 		if (v == NULL)
@@ -877,13 +890,13 @@ namespace MultiLayer {
 						}
 						*/
 
-						 (v_m, neuron_numb, 3, p_m, 3, 1, y);            
+						multiply_matrix(v_m, neuron_numb, 3, p_m, 3, 1, y);
 						for (int j = 0; j < neuron_numb; j++) {
 							y[j] = SigmoidFunc(y[j]);
 						}// y outputs 
 						y[neuron_numb] = -1;  // Bias eklentisi
 
-						multiply_matrix(w_m, class_numb, neuron_numb + 1, y, neuron_numb + 1, 1, o); // Terspoze ve o atamasý yapýldý. 
+						multiply_matrix(w_m, class_numb, (neuron_numb + 1), y, (neuron_numb + 1), 1, o); // Terspoze ve o atamasý yapýldý. 
 
 						for (int i = 0; i < class_numb; i++) {
 							o[i] = SigmoidFunc(o[i]);
@@ -962,5 +975,6 @@ namespace MultiLayer {
 
 		}
 	}
+
 };
 }
