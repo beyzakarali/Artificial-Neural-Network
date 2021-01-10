@@ -307,7 +307,8 @@ namespace ProjectANN {
 
 		   }
 #pragma endregion
-		   //For not click both of them.
+
+     //BUTTON KONROLLERI
 	private: System::Void Class1Button_Click(System::Object^ sender, System::EventArgs^ e) {
 		Class2Button->Checked = false;
 		Class1Button->Checked = true;
@@ -316,10 +317,11 @@ namespace ProjectANN {
 		Class1Button->Checked = false;
 		Class2Button->Checked = true;
 	}
+	
+	//KOORDINATIN TEMIZLENMESI
 	void pictureBoxClean() {
 
 		pictureBox1->CreateGraphics()->Clear(Color::FromArgb(255, 255, 255));
-		//Pen^ pen = gcnew Pen(Color::FromArgb(255, 255, 255), 3.0f);
 
 		Pen^ pen = gcnew Pen(Color::White, 2.0f);
 		for (int i = 0; i < Total_size; i++) {
@@ -364,6 +366,7 @@ namespace ProjectANN {
 		pictureBox1_Paint(this, f);
 	}
 
+	//KOORDINAT CIZIMI
 	private: System::Void pictureBox1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 
 		Pen^ pen = gcnew Pen(Color::Black, 3.0f);
@@ -373,6 +376,8 @@ namespace ProjectANN {
 		e->Graphics->DrawLine(pen, center_width, 0, center_width, pictureBox1->Height);
 		e->Graphics->DrawLine(pen, 0, center_height, pictureBox1->Width, center_height);
 	}
+
+    //NOKTA CIZIMLERI
 	private: System::Void pictureBox1_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
 		//PictureBox clicked and points  classification 
 
@@ -385,8 +390,8 @@ namespace ProjectANN {
 				int temp_x, temp_y;
 				temp_x = (System::Convert::ToInt32(e->X));
 				temp_y = (System::Convert::ToInt32(e->Y));
-				x_eksen = (double)(temp_x - (pictureBox1->Width >> 1)); // pictureBox->Width / 2 
-				y_eksen = (double)((pictureBox1->Height >> 1) - temp_y); // pictureBox->Height / 2
+				x_eksen = (double)(temp_x - (pictureBox1->Width >> 1));  
+				y_eksen = (double)((pictureBox1->Height >> 1) - temp_y); 
 
 
 				//Draw points..
@@ -396,7 +401,7 @@ namespace ProjectANN {
 					Total_size = Class1_size = 1;
 					p = new Samples[1];
 					p[0].x = x_eksen;  p[0].y = y_eksen;  p[0].id = CLASS1;
-					//p = NormalizationR1(p); // -------------------------------------delta---------------
+					
 				}
 				else {
 					Samples* temp;
@@ -415,7 +420,7 @@ namespace ProjectANN {
 					p[Total_size - 1].x = x_eksen;
 					p[Total_size - 1].y = y_eksen;
 					p[Total_size - 1].id = CLASS1;
-					//p[Total_size - 1] = NormalizationR1(p[Total_size - 1]); // ---------------------delta---------------------------
+					
 
 
 				}
@@ -426,7 +431,7 @@ namespace ProjectANN {
 
 				Pen^ pen = gcnew Pen(Color::RosyBrown, 3.0f);
 				double x_eksen, y_eksen;
-				int temp_x, temp_y; // ................................................?
+				int temp_x, temp_y; 
 				temp_x = (System::Convert::ToInt32(e->X));
 				temp_y = (System::Convert::ToInt32(e->Y));
 				x_eksen = (double)(temp_x - (pictureBox1->Width) / 2); // pictureBox->Width >> 1 
@@ -441,7 +446,7 @@ namespace ProjectANN {
 					Total_size = Class2_size = 1;
 					p = new Samples[1];
 					p[0].x = x_eksen;  p[0].y = y_eksen;  p[0].id = CLASS2;
-					//p = NormalizationR1(p); // ---------------------delta---------------------------
+					
 				}
 				else {
 
@@ -451,7 +456,7 @@ namespace ProjectANN {
 					Total_size = Class1_size + Class2_size;
 					p = new Samples[Total_size];
 					//For temp points 
-					for (int i = 0; i < Total_size - 1; i++) { //Not only class1 for all points 
+					for (int i = 0; i < Total_size - 1; i++) {
 						p[i].x = temp[i].x;
 						p[i].y = temp[i].y;
 						p[i].id = temp[i].id;
@@ -461,7 +466,7 @@ namespace ProjectANN {
 					p[Total_size - 1].x = x_eksen;
 					p[Total_size - 1].y = y_eksen;
 					p[Total_size - 1].id = CLASS2;
-					//p[Total_size - 1] = NormalizationR1(p[Total_size - 1]); // ---------------------delta---------------------------
+					
 				}
 
 
@@ -480,6 +485,8 @@ namespace ProjectANN {
 
 
 	}
+
+	//W OLUSUMU VE RASTGELE DOGRU CIZIMI
 	private: System::Void rastgeleToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		int boyut = 2;
 		w = new W[1];
@@ -504,13 +511,13 @@ namespace ProjectANN {
 		Pen^ pen = gcnew Pen(Color::Purple, 2.0f);
 
 		pictureBox1->CreateGraphics()->DrawLine(pen, pictureBox1->Width / 2 + minX, pictureBox1->Height / 2 - minY, pictureBox1->Width / 2 + maxX, pictureBox1->Height / 2 - maxY);
-		//pictureBox1->CreateGraphics()->DrawLine(pen, pictureBox1->Width / 2 + 100, pictureBox1->Height / 2 -50 ,pictureBox1->Width / 2 -120, pictureBox1->Height / 2 +80);
-		//pictureBox1->CreateGraphics()->DrawLine( pen , 100,50,-120,-80) yukardaki örnek + - olayýný karýþtýrmýþým :( kodd
 		richTextBox1->AppendText("\n \nw1 :" + Convert::ToString(w->w1) + " \n \nw2 :" + Convert::ToString(w->w2) + "\n \nw3 :" + Convert::ToString(w->w3));
 
 
 	}
 
+
+	//SIGN AKTIVASYON FONK - AYRIK ALGORITMA
     private: System::Void binaryToolStripMenuItem1_Click(System::Object^ sender, System::EventArgs^ e) {
 		if (w == NULL)
 			MessageBox::Show("Önce rastgele bir doðru oluþturunuz.");
@@ -559,6 +566,7 @@ namespace ProjectANN {
     
     }
 
+	//SIGMOID VE ERROR FONK - SUREKLI ALGORITMA
     private: System::Void continousToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 	if (w == NULL)
 		MessageBox::Show("Önce rastgele bir doðru oluþturunuz.");
@@ -597,14 +605,9 @@ namespace ProjectANN {
 				richTextBox1->AppendText("\n\n" + Convert::ToString(i + 1) + "'nci nesil :" + "\n\nw1:" + Convert::ToString(w->w1) + " \n \nw2 :" + Convert::ToString(w->w2) + "\n \nw3 :" + Convert::ToString(w->w3));
 			}
 
-		} while (fabs(Error) > 0.6); // hata 0.6 dan buyuk oldugu muddetce devam et
+		} while (fabs(Error) > 0.6); 
 
-		// Normalize edilmiþ dogrularý ciz.
-		
-
-		
-
-		// cizgiyi ciz..
+		// DOGRUYU CIZ
 		Pen^ pen = gcnew Pen(Color::Purple, 2.0f);
 		double y1 = ((w->w3*20 - (w->w1 * (pictureBox1->Width / -2))) / (w->w2));
 		double y2 = ((w->w3*20 - (w->w1 * (pictureBox1->Width / 2))) / (w->w2));
@@ -616,6 +619,7 @@ namespace ProjectANN {
 }
 
 
+	//NORMALIZASYON
 	private: System::Void checkBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 		if (!p) {
 
@@ -625,20 +629,13 @@ namespace ProjectANN {
 		else {
 			
 			BatchNormalization(p, Total_size);
-			
+			pictureBoxClean_N();
 
-
-
+			//TEXTBOX GUNCELLEME
 			x_info->Text = Convert::ToString(p[Total_size - 1].x);
 			y_info->Text = Convert::ToString(p[Total_size - 1].y);
 			id_info->Text = Convert::ToString(p[Total_size - 1].id);
 			total_value->Text = Convert::ToString(Total_size);
-
-			
-
-
-
-
 			
 
 		}
