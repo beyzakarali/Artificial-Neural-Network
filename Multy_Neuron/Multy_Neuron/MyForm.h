@@ -438,7 +438,7 @@ namespace MultyNeuron {
 
 
 
-
+    //KOORDINAT CIZIMI
 	private: System::Void pictureBox1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 	
 
@@ -450,7 +450,8 @@ namespace MultyNeuron {
 		e->Graphics->DrawLine(pen, 0, center_height, pictureBox1->Width, center_height);
 	
 	}
-	
+
+	//NOKTA CIZIMLERI
 	private: System::Void pictureBox1_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
 		int class_value = Convert::ToInt32(numericUpDown1->Value);
 
@@ -465,8 +466,8 @@ namespace MultyNeuron {
 				int temp_x, temp_y;
 				temp_x = (System::Convert::ToInt32(e->X));
 				temp_y = (System::Convert::ToInt32(e->Y));
-				x_eksen = (double)(temp_x - (pictureBox1->Width >> 1)); // pictureBox->Width / 2 
-				y_eksen = (double)((pictureBox1->Height >> 1) - temp_y); // pictureBox->Height / 2
+				x_eksen = (double)(temp_x - (pictureBox1->Width >> 1)); 
+				y_eksen = (double)((pictureBox1->Height >> 1) - temp_y); 
 
 
 				//Draw points..
@@ -476,7 +477,7 @@ namespace MultyNeuron {
 					Total_size = 1;
 					p = new Samples[1];
 					p[0].x = x_eksen;  p[0].y = y_eksen;  p[0].id = j; p[0].cl.R = clr[j-1].R;  p[0].cl.G = clr[j-1].G; p[0].cl.B = clr[j-1].B;
-					//p = NormalizationR1(p); // -------------------------------------delta--------------------------------------------
+					
 				}
 				else {
 					Samples* temp;
@@ -503,9 +504,6 @@ namespace MultyNeuron {
 					p[Total_size - 1].cl.B = clr[j-1].B;
 
 
-					//p[Total_size - 1] = NormalizationR1(p[Total_size - 1]); // ---------------------delta---------------------------
-
-
 				}
 				x_info->Text = Convert::ToString(p[Total_size - 1].x);
 				y_info->Text = Convert::ToString(p[Total_size - 1].y);
@@ -523,12 +521,13 @@ namespace MultyNeuron {
 
 	}			
 
+	//RENK ATAMALARI
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 	    int  class_numb = Convert::ToInt32(numericUpDown1->Value);
 		label4->Text = Convert::ToString(numericUpDown1->Value);
 		clr = new Color_[class_numb];
 		//srand(time(0));
-		for (int i = 0; i < class_numb; i++) {  // 0-1-...
+		for (int i = 0; i < class_numb; i++) { 
 			
 			clr[i].R = rand() % 255;
 			clr[i].G = rand() % 255;
@@ -537,7 +536,8 @@ namespace MultyNeuron {
 	
 
 	}
-
+    
+	//PENCERE TEMIZLEME ISLEMLERI
 	void pictureBoxClean() {
 
 		pictureBox1->CreateGraphics()->Clear(Color::FromArgb(255, 255, 255));		
@@ -580,6 +580,7 @@ namespace MultyNeuron {
 
 	}
 
+	//ILK DOGRU CIZIMI - AGIRLIK ATAMALARI
 	private: System::Void rastgeleToolStripMenuItem2_Click(System::Object^ sender, System::EventArgs^ e) {
 			int boyut = 2;
 			int class_value = Convert::ToInt32(numericUpDown1->Value);
@@ -613,6 +614,7 @@ namespace MultyNeuron {
 
 	}
    
+    //SIGN FONK - AYRIK ALGORITMA
 	private: System::Void discreteToolStripMenuItem2_Click(System::Object^ sender, System::EventArgs^ e) {
 
 		this->pictureBoxClean();
@@ -626,12 +628,12 @@ namespace MultyNeuron {
 			double c = 0.1;
 
 			double fnet1 = 0;
-			int wrong = 0;
+			int wrong = 0 , total_cycle=0 ;
 			
 
 			//--------------------------------------------------------------------Preception Rule ------------------------------------------------------------------
 
-			for (int i = 1; i <= class_value; i++) { // Hiçbir şey bozulmadı sadece class sayılarını değiştirdim. w[0] clr[0] dan başlıyor.
+			for (int i = 1; i <= class_value; i++) { 
 				do {
 					wrong = 0;
 
@@ -656,6 +658,7 @@ namespace MultyNeuron {
 
 					}
 
+					total_cycle++;
 
 				} while (wrong);
 
@@ -669,15 +672,16 @@ namespace MultyNeuron {
 				pictureBox1->CreateGraphics()->DrawLine(pen, 0, pictureBox1->Height / 2 - y1, pictureBox1->Width, pictureBox1->Height / 2 - y2);
 			}
 
-
+			cycle_info->Text = Convert::ToString(total_cycle);
 		}
 
 
 	}
 
+	//SIGMOID FONK - SUREKLI ALGORIMA - (DELTA RULE)
 	private: System::Void countinousToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		if (w == NULL)
-			MessageBox::Show("Önce rastgele bir doðru oluþturunuz.");
+			MessageBox::Show("Once rastgele bir dogru olusturunuz.");
 
 		else {
 
@@ -688,7 +692,7 @@ namespace MultyNeuron {
 			double derActivationFunc = 0;
 			double DW_Value = 0;
 
-			int size_i = 0 , size_j = 0, total =0;
+			int total_cycle =0;
 			 
 			//-------------------------------------------------------------------Delta Rule -------------------------------------------------------------------------
 			pictureBoxClean_N();
@@ -726,30 +730,28 @@ namespace MultyNeuron {
 							w[j - 1] = w_sumCalculation(w[j - 1], deger);
 
 						}
-						size_i = i +1;
+						
 					}
 
-					size_j = (size_i*j)+1;
+					total_cycle++;
 					
 
 				} while (fabs(Error) > 0.6); 
 
-				total += size_j;
 
 
 				Pen^ pen = gcnew Pen(Color::FromArgb( clr[j - 1].R, clr[j - 1].G, clr[j - 1].B), 2.0f);
 
-				// lines scale for scale points
-				double y1 = ((w[j-1].w3 * 20 - (w[j-1].w1 * (pictureBox1->Width / -2))) / (w[j-1].w2));//---------------------
-				double y2 = ((w[j-1].w3 * 20 - (w[j-1].w1 * (pictureBox1->Width / 2))) / (w[j-1].w2));//----------------------
+				// lines scale for scale points (normalization problem solved) 
+				double y1 = ((w[j-1].w3 * 20 - (w[j-1].w1 * (pictureBox1->Width / -2))) / (w[j-1].w2));
+				double y2 = ((w[j-1].w3 * 20 - (w[j-1].w1 * (pictureBox1->Width / 2))) / (w[j-1].w2));
 
 				pictureBox1->CreateGraphics()->DrawLine(pen, 0, pictureBox1->Height / 2 - y1, pictureBox1->Width, pictureBox1->Height / 2 - y2);
 				
-				MessageBox::Show(Convert::ToString(size_j));
 			}
 			
 			
-			cycle_info->Text = Convert::ToString(total);
+			cycle_info->Text = Convert::ToString(total_cycle);
 
 
 			
@@ -761,10 +763,7 @@ namespace MultyNeuron {
 	
 	}
 
-
-
-
-
+    //NORMALIZASYON 
 	private: System::Void checkBox1_Click(System::Object^ sender, System::EventArgs^ e) {
 		if (!p) {
 

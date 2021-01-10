@@ -38,4 +38,4 @@ double LeakyReluFunc(double fnet);
 
 
 void BatchNormalization(Samples* p, int total_size);
-void NormalizationR1(Samples* p, int total_size);
+

@@ -5,7 +5,7 @@
 
 
 int Ypoint(int x, W w, int factor) {
-	// -1 -> bias degeri (dogrunun kaydýrýlmasý)
+
 	return (int)((double)(-1 * (double)factor * w.w3 - w.w1 * x) / (double)(w.w2));
 
 }
@@ -47,7 +47,7 @@ W w_sumCalculation(W w1, Samples p) {
 }
 
 // bipolar sigmoid func
-double SigmoidFunc(double fnet) { // doðru çalýþýyor.
+double SigmoidFunc(double fnet) { 
 	int lambda = 1;
 	double value = (-lambda) * fnet;
 	value = exp(value);
@@ -60,7 +60,7 @@ double SigmoidFunc(double fnet) { // doðru çalýþýyor.
 	return (2 / (1 + value) - 1);
 }
 
-double derSigmoidFunc(double fnet) { // doðru çalýsýyor.
+double derSigmoidFunc(double fnet) {
 	double ret = (1 - pow(fnet, 2)) * 0.5;
 
 
@@ -101,10 +101,8 @@ void BatchNormalization(Samples* p, int total_size) {
 
 	for (int i = 0; i < total_size; i++) {
 		p[i].x = (p[i].x - ao_x) / ss_x;
-	    //p[i].x = (p[i].x * 10);  // Attention coefficient  ;
 
 		p[i].y = (p[i].y - ao_y) / ss_y;
-		//p[i].y = (p[i].y * 10);
 
 	}
 
@@ -113,24 +111,4 @@ void BatchNormalization(Samples* p, int total_size) {
 }
 
 
-void NormalizationR1(Samples* p, int total_size) {
-
-	double norm_x = 0.0, norm_y = 0;
-	for (int i = 0; i < total_size; i++) {
-		norm_x += pow(p[i].x, 2);
-		norm_y += pow(p[i].y, 2);
-	}
-
-	norm_x = sqrt(norm_x);
-	norm_y = sqrt(norm_y);
-
-	for (int i = 0; i < total_size; i++) {
-		p[i].x = fabs((p[i].x) / norm_x);
-		p[i].y = fabs((p[i].y) / norm_y);
-	}
-
-
-
-
-}
 
