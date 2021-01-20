@@ -711,13 +711,11 @@ namespace MultyNeuron {
 						else
 							p[i].temp_id = -1;
 
-
-
 						Error += (pow(p[i].temp_id - val, 2) * 0.5);
 
 						
 
-						if (fabs(Error) >= 0.6) {
+						if (fabs(Error) >= 0.1) {
 
 							derActivationFunc = derSigmoidFunc(val);
 							DW_Value = c * (p[i].temp_id - val) * derActivationFunc; // c*(d-fnet)*fnet'*x)
@@ -736,7 +734,7 @@ namespace MultyNeuron {
 					total_cycle++;
 					
 
-				} while (fabs(Error) > 0.6); 
+				} while (fabs(Error) > 0.1); 
 
 
 

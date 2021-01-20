@@ -597,7 +597,7 @@ namespace ProjectANN {
 					
 					Samples deger ;
 
-				    deger = w_mulCalculation(DW_Value, p[i]);
+				    deger = w_mulCalculation(DW_Value, p[i]); 
 
 					w = w_sumCalculation(w, deger);
 
@@ -629,7 +629,7 @@ namespace ProjectANN {
 		else {
 			
 			BatchNormalization(p, Total_size);
-			pictureBoxClean_N();
+			pictureBoxClean_N(); //Normalize halleri cizildi.
 
 			//TEXTBOX GUNCELLEME
 			x_info->Text = Convert::ToString(p[Total_size - 1].x);

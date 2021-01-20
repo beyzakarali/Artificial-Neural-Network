@@ -81,6 +81,7 @@ namespace MultiLayer {
 
 	private:
 		Samples* p;
+		Samples* old;
 		int Total_size = 0;
 		W* w;
 		Color_* clr_p;
@@ -97,6 +98,7 @@ namespace MultiLayer {
 	private: System::Windows::Forms::DataVisualization::Charting::Chart^ chart1;
 	private: System::Windows::Forms::ContextMenuStrip^ contextMenuStrip1;
 	private: System::Windows::Forms::RichTextBox^ richTextBox1;
+	private: System::Windows::Forms::Label^ label4;
 
 
 	private: System::ComponentModel::IContainer^ components;
@@ -146,6 +148,7 @@ namespace MultiLayer {
 			   this->chart1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			   this->contextMenuStrip1 = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
 			   this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
+			   this->label4 = (gcnew System::Windows::Forms::Label());
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			   this->menuStrip1->SuspendLayout();
 			   this->groupBox1->SuspendLayout();
@@ -414,11 +417,20 @@ namespace MultiLayer {
 			   this->richTextBox1->TabIndex = 20;
 			   this->richTextBox1->Text = L"";
 			   // 
+			   // label4
+			   // 
+			   this->label4->AutoSize = true;
+			   this->label4->Location = System::Drawing::Point(833, 88);
+			   this->label4->Name = L"label4";
+			   this->label4->Size = System::Drawing::Size(0, 13);
+			   this->label4->TabIndex = 21;
+			   // 
 			   // MyForm
 			   // 
 			   this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			   this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			   this->ClientSize = System::Drawing::Size(1180, 451);
+			   this->Controls->Add(this->label4);
 			   this->Controls->Add(this->richTextBox1);
 			   this->Controls->Add(this->chart1);
 			   this->Controls->Add(this->Class_Label);
@@ -602,11 +614,23 @@ namespace MultiLayer {
 		}
 		else {
 
+			old = new Samples[Total_size];
+			for (int j = 0; j < Total_size; j++) {
+				old[j].x = p[j].x;
+				old[j].y = p[j].y;
+				old[j].id = p[j].id;
+				old[j].ao_x = p[j].ao_x;
+				old[j].ao_y = p[j].ao_y;
+				old[j].bias = p[j].bias;
+				old[j].c2 = p[j].c2;
+				old[j].cl = p[j].cl;
+				old[j].ss_x = p[j].ss_x;
+				old[j].ss_y = p[j].ss_y;
+				old[j].temp_id= p[j].temp_id;
+			}
 			BatchNormalization(p, Total_size);
 			//Drawing Normalization points
 			this->pictureBoxClean_N();
-
-
 		}
 	}
 
@@ -717,9 +741,6 @@ namespace MultiLayer {
 
 
 
-			//--------------------------------------------------------------------PerceptionRule ------------------------------------------------------------------
-
-
 			int cyclec = 0;
 			do {
 				cyclec++;
@@ -765,7 +786,7 @@ namespace MultiLayer {
 						sumEr += pow((d_m[k] - o[k]), 2);
 					}
 
-					//-------------------------------------------------------BackForward----------------------------------------------------------------------
+					//-------------------------------------------------------BackPropagation----------------------------------------------------------------------
 
 					// w update
 					double sabit = 0;
@@ -798,9 +819,14 @@ namespace MultiLayer {
 
 				}
 				Error = sqrt(sumEr) / (Total_size * class_numb);
-				chart1->Series["Series1"]->Points->AddXY(cyclec, Error);
-				this->richTextBox1->AppendText("Loss: " + Convert::ToString(Error) + "\tcycle: " + Convert::ToString(cyclec++) + "\n");
-				this->richTextBox1->ScrollToCaret();
+				//hizli cikti almak icin
+				label4->Text = Convert::ToString(Error);
+				label4->Refresh();
+				//görsel
+				//chart1->Series["Series1"]->Points->AddXY(cyclec, Error);
+				//chart1->Refresh();
+				//this->richTextBox1->AppendText("Loss: " + Convert::ToString(Error) + "\tcycle: " + Convert::ToString(cyclec++) + "\n");
+				//this->richTextBox1->ScrollToCaret();
 
 			} while (Error > 0.01);
 
@@ -879,6 +905,21 @@ namespace MultiLayer {
 		System::Drawing::Rectangle r;
 		PaintEventArgs^ f = gcnew PaintEventArgs(pictureBox1->CreateGraphics(), r);
 		pictureBox1_Paint(this, f);
+
+		for (int j = 0; j < Total_size; j++) {
+
+			 p[j].x      = old[j].x       ;
+			 p[j].y		 = old[j].y		  ;
+			 p[j].id	 = old[j].id	  ;
+			 p[j].ao_x	 = old[j].ao_x	  ;
+			 p[j].ao_y	 = old[j].ao_y	  ;
+			 p[j].bias	 = old[j].bias	  ;
+			 p[j].c2	 = old[j].c2	  ;
+			 p[j].cl	 = old[j].cl	  ;
+			 p[j].ss_x	 = old[j].ss_x	  ;
+			 p[j].ss_y	 = old[j].ss_y	  ;
+			 p[j].temp_id= old[j].temp_id ;
+		}
 	}
 };
 }
